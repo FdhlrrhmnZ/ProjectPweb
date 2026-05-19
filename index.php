@@ -1,10 +1,12 @@
 <?php
 require_once 'class/CompanyProfile.php';
+require "inc.koneksi.php";
 $profile = new CompanyProfile();
 
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 $page = preg_replace('/[^a-zA-Z0-9-]/', '', $page); // Sanitasi input URL
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
