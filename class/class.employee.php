@@ -58,6 +58,7 @@ class Employee extends Connection {
         $sql = "SELECT * FROM employee";
         $result = mysqli_query($this->connection, $sql);
         $arrResult = [];
+        $count = 0;
         if(mysqli_num_rows($result) > 0){
             while($data = mysqli_fetch_assoc($result)){
                 $objEmployee = new Employee();
