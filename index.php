@@ -34,6 +34,7 @@ $page = preg_replace('/[^a-zA-Z0-9-]/', '', $page); // Sanitasi input URL
                     <li class="nav-item"><a class="nav-link <?= ($page == 'about') ? 'active' : '' ?>" href="index.php?page=about">About Us</a></li>
                     <li class="nav-item"><a class="nav-link <?= ($page == 'catalog') ? 'active' : '' ?>" href="index.php?page=catalog">Katalog Produk</a></li>
                     <li class="nav-item"><a class="nav-link <?= ($page == 'contact') ? 'active' : '' ?>" href="index.php?page=contact">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link <?= ($page == 'employeelist') ? 'active' : '' ?>" href="index.php?page=employeelist">Karyawan</a></li>
                     <li class="nav-item ms-lg-3">
                         <a class="btn btn-outline-light position-relative" href="index.php?page=cart">
                             Cart
