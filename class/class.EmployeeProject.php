@@ -22,7 +22,7 @@ class EmployeeProject extends Connection{
     }
 
     public function AddEmployeeProject(){
-        $sql = "INSERT INTO employee_project (ssn, pcode, hours) VALUES ('$this->ssn', '$this->pcode', '$this->hours')";
+        $sql = "INSERT INTO employeeproject (ssn, pcode, hours) VALUES ('$this->ssn', '$this->pcode', '$this->hours')";
         $this->hasil = mysqli_query($this->connection, $sql);
 
         if($this->hasil){
@@ -33,7 +33,7 @@ class EmployeeProject extends Connection{
     }
 
     public function UpdateEmployeeProject(){
-        $sql = "UPDATE employee_project 
+        $sql = "UPDATE employeeproject 
                 SET ssn='$this->ssn', 
                 pcode='$this->pcode', 
                 hours='$this->hours' 
@@ -50,7 +50,7 @@ class EmployeeProject extends Connection{
 
     public function SelectAllEmployeeProject(){
         $sql = "SELECT ep.id, ep.ssn, e.fname, ep.pcode, ep.hours 
-                FROM employee_project ep 
+                FROM employeeproject ep 
                 INNER JOIN employee e ON ep.ssn = e.ssn
                 ORDER BY ep.id";
 
@@ -70,12 +70,12 @@ class EmployeeProject extends Connection{
                 $count++;
             }
         }
-        return $arrResult;
+        return $arrayResult;
     }
 
     public function SelectOneEmployeeProject(){
         $sql = "SELECT ep.*, e.fname
-                FROM employee_project ep 
+                FROM employeeproject ep 
                 INNER JOIN employee e ON ep.ssn = e.ssn
                 WHERE ep.id='$this->id'";
 
