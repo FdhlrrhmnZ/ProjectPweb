@@ -24,7 +24,7 @@ if (isset($_POST['btnSubmit'])) {
 }
 
 $objEmployee = new Employee();
-$arrEmployee = $objEP->SelectAllEmployeeProject();
+$arrEmployee = $objEmployee->SelectAllEmployee();
 ?>
 
 <h4 class="title"><span class="text"><strong>Employee Project</strong></span></h4>
