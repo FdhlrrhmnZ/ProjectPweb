@@ -3,7 +3,7 @@
 <strong>Employee List</strong>
 </spans><h4>
 <a class="btn btn-primary"
-href="index.php?p=employee">Add</a>
+href="index.php?page=employee">Add</a>
 <table class="table table-bordered">
     <tr>
     <th>No.</th>
@@ -30,9 +30,9 @@ if(count($arrayResult) == 0){
         echo '<td>'.$dataEmployee->address.'</td>';
         echo '<td>
         <a class="btn btn-warning"
-        href="index.php?p=employee&ssn='.$dataEmployee->ssn.'">Edit</a>
+        href="index.php?page=employee&ssn='.$dataEmployee->ssn.'">Edit</a>
         <a class="btn btn-danger"
-        href="index.php?p=deleteemployee&ssn='.$dataEmployee->ssn.'"
+        href="index.php?page=deleteemployee&ssn='.$dataEmployee->ssn.'"
         onclick="return confirm(\'Apakah anda yakin ingin menghapus?\')">
         Delete</a></td>';
         echo '</tr>';

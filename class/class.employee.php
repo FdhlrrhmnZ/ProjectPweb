@@ -20,12 +20,12 @@ class Employee extends Connection {
 
     public function AddEmployee(){
         $sql = "INSERT INTO employee (ssn, fname, address) VALUES ('$this->ssn', '$this->fname', '$this->address')";
-        $this->hasil = mysqli_query($this->conn, $sql);
+        $this->hasil = mysqli_query($this->connection, $sql);
 
         if($this->hasil){
             $this->message = "Data employee berhasil ditambahkan";
         } else {
-            $this->message = "Data employee gagal ditambahkan: " . mysqli_error($this->conn);
+            $this->message = "Data employee gagal ditambahkan: " . mysqli_error($this->connection);
         }
     }
 
