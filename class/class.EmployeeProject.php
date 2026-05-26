@@ -5,7 +5,7 @@ class EmployeeProject extends Connection{
     private $pcode = '';
     private $hours = '';
 
-    privte $fname = '';
+    private $fname = '';
     public $hasil = false;
     public $message = '';
 
@@ -80,7 +80,7 @@ class EmployeeProject extends Connection{
                 WHERE ep.id='$this->id'";
 
         $resultOne = mysqli_query($this->connection, $sql);
-        if(mysqli_num_rows($result) == 1){
+        if(mysqli_num_rows($resultOne) == 1){
             $data = mysqli_fetch_array($resultOne);
             $this->ssn = $data['ssn'];
             $this->fname = $data['fname'];
