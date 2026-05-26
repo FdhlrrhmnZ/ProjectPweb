@@ -24,11 +24,11 @@
         $no = 1;
         foreach ($arrayResult as $dataEP) {
             echo '<tr>';
-            echo '<td>' . $no . '</td>';
-            echo '<td>' . $dataEP->ssn . '</td>';
-            echo '<td>' . $dataEP->fname . '</td>';
-            echo '<td>' . $dataEP->pcode . '</td>';
-            echo '<td>' . $dataEP->hours . '</td>';
+            echo '<td>' . $no. '</td>';
+            echo '<td>' . $dataEP->ssn. '</td>';
+            echo '<td>' . $dataEP->fname. '</td>';
+            echo '<td>' . $dataEP->pcode. '</td>';
+            echo '<td>' . $dataEP->hours. '</td>';
             echo '<td>
 <a class="btn btn-warning"
 href="index.php?p=employeeproject&id=' . $dataEP->id . '"> Edit </a> |

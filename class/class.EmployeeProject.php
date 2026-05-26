@@ -55,7 +55,7 @@ class EmployeeProject extends Connection{
                 ORDER BY ep.id";
 
         $result = mysqli_query($this->connection, $sql);
-        $arrayResult = array();
+        $arrResult = array();
         $count = 0;
 
         if(mysqli_num_rows($result) > 0){
@@ -70,7 +70,7 @@ class EmployeeProject extends Connection{
                 $count++;
             }
         }
-        return $arrayResult;
+        return $arrResult;
     }
 
     public function SelectOneEmployeeProject(){
