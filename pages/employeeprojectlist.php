@@ -14,29 +14,31 @@
         <th>Action</th>
     </tr>
 
-<?php
-require_once "class/class.EmployeeProject.php";
-$objEP = new EmployeeProject();
-$arrayresult = $objEP->SelectAllEmployeeProject();
-
-if(count($arrayresult) == 0){
-    echo "<tr><td colspan='6' class='text-center'>No data available</td></tr>";
-} else {
-    $no = 1;
-    foreach($arrayresult as $dataEP){
-        echo "<tr>
-                <td>$no</td>
-                <td>$dataEP->ssn</td>
-                <td>$dataEP->fname</td>
-                <td>$dataEP->pcode</td>
-                <td>$dataEP->hours</td>
-                <td>
-                    <a class="btn btn-warning" href="index.php?page=employeeproject&id='.$dataEP->id.'"> Edit </a>
-                    <a class="btn btn-danger" href="index.php?page=employeeprojectdelete&id='.$data->id.'" onclick="return confirm(\'Are you sure you want to delete this record?'\)"> Delete </a>
-                </td>
-              </tr>";
-        $no++;
+    <?php
+    require_once('./class/class.EmployeeProject.php');
+    $objEP = new EmployeeProject();
+    $arrayResult = $objEP->SelectAllEmployeeProject();
+    if (count($arrayResult) == 0) {
+        echo '<tr><td colspan="6">Tidak ada data!</td></tr>';
+    } else {
+        $no = 1;
+        foreach ($arrayResult as $dataEP) {
+            echo '<tr>';
+            echo '<td>' . $no . '</td>';
+            echo '<td>' . $dataEP->ssn . '</td>';
+            echo '<td>' . $dataEP->fname . '</td>';
+            echo '<td>' . $dataEP->pcode . '</td>';
+            echo '<td>' . $dataEP->hours . '</td>';
+            echo '<td>
+<a class="btn btn-warning"
+href="index.php?p=employeeproject&id=' . $dataEP->id . '"> Edit </a> |
+<a class="btn btn-danger"
+href="index.php?p=deleteemployeeproject&id=' . $dataEP->id . '" onclick="return
+confirm(\'Apakah anda yakin ingin menghapus?\')"> Delete </a>
+</td>';
+            echo '</tr>';
+            $no++;
+        }
     }
-}
-?>
+    ?>
 </table>
