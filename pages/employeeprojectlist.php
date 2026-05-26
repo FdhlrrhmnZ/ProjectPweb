@@ -30,12 +30,12 @@
             echo '<td>' . $dataEP->pcode. '</td>';
             echo '<td>' . $dataEP->hours. '</td>';
             echo '<td>
-<a class="btn btn-warning"
-href="index.php?p=employeeproject&id=' . $dataEP->id . '"> Edit </a> |
-<a class="btn btn-danger"
-href="index.php?p=deleteemployeeproject&id=' . $dataEP->id . '" onclick="return
-confirm(\'Apakah anda yakin ingin menghapus?\')"> Delete </a>
-</td>';
+            <a class="btn btn-warning"
+            href="index.php?page=employeeproject&id=' . $dataEP->id . '"> Edit </a> |
+            <a class="btn btn-danger"
+            href="index.php?page=deleteemployeeproject&id=' . $dataEP->id . '"
+            onclick="return confirm(\'Apakah anda yakin ingin menghapus?\')"> Delete </a>
+            </td>';
             echo '</tr>';
             $no++;
         }
