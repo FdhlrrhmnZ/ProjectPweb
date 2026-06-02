@@ -1,5 +1,5 @@
 <?php
-require_once('./class/class.User.php');
+require_once('./class/user.php');
 
 if (isset($_POST['btnSubmit'])) {
     $inputemail = $_POST["email"];
