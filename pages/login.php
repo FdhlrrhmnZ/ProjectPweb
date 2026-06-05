@@ -51,6 +51,7 @@ if (isset($_POST['btnLogin'])) {
         <td></td>
         <td></td>
         <td><input type="submit" class="btn btn-success" value="Login" name="btnLogin">
+            <a href="index.php?page=register" class="btn btn-primary">Register</a>
             <a href="index.php" class="btn btn-danger">Cancel</a>
         </td>
         </tr>
