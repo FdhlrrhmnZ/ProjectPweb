@@ -1,52 +1,43 @@
 <?php
-require_once ('./class/class.employee.php');
+require_once('./class/class.employee.php');
 $objEmployee = new Employee();
-if(isset($_POST['btnSubmit'])){
-    $objEmployee->ssn = $_POST['ssn'];
-    $objEmployee->fname = $_POST['fname'];
+if (isset($_POST['btnSubmit'])) {
+    $objEmployee->ssn     = $_POST['ssn'];
+    $objEmployee->fname   = $_POST['fname'];
     $objEmployee->address = $_POST['address'];
-
-    if(isset($_GET['ssn'])){
+    if (isset($_GET['ssn'])) {
         $objEmployee->ssn = $_GET['ssn'];
         $objEmployee->UpdateEmployee();
     } else {
         $objEmployee->AddEmployee();
     }
-    echo "<script>alert('".$objEmployee->message."'); </script>";
-    if($objEmployee->hasil){
-        echo "<script>window.location='index.php?p=employeelist'; </script>";
+    echo "<script>alert('".$objEmployee->message."');</script>";
+    if ($objEmployee->hasil) {
+        echo "<script>window.location='index.php?page=employeelist';</script>";
     }
-}
-else if(isset($_GET['ssn'])){
+} else if (isset($_GET['ssn'])) {
     $objEmployee->ssn = $_GET['ssn'];
     $objEmployee->SelectOneEmployee();
 }
 ?>
-<h4 class="title"><span class="text"><strong>Employee Form</strong></span></h4>
-<form action=""method="post">
-    <table class="table">
-        <tr>
-            <td>SSN</td>
-            <td>:</td>
-            <td><input type="text" class="form-control" name="ssn"
-                value="<?php echo $objEmployee->fname; ?>"></td>
-        </tr>
-        <tr>
-            <td>Name</td>
-            <td>:</td>
-            <td><input type="text" class="form-control" name="fname"
-                value="<?php echo $objEmployee->fname; ?>"></td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td>:</td>
-            <td><input type="text" class="form-control" name="address"
-                value="<?php echo $objEmployee->address; ?>"></td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td><input type="submit" class="btn btn-success" value="Save" name="btnSubmit">
-            <a href="index.php?p=employeelist" class="btn btn-warning">Cancel</a></td>
-            </tr>
-    </table>
-</form>
+<div class="pv-page-wrap" style="max-width:540px;">
+    <h1 class="pv-page-title">Form <span>Karyawan</span></h1>
+    <form action="" method="post">
+        <div class="mb-3">
+            <label class="form-label">SSN</label>
+            <input type="text" class="form-control" name="ssn" value="<?= $objEmployee->ssn ?>">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nama</label>
+            <input type="text" class="form-control" name="fname" value="<?= $objEmployee->fname ?>">
+        </div>
+        <div class="mb-4">
+            <label class="form-label">Alamat</label>
+            <input type="text" class="form-control" name="address" value="<?= $objEmployee->address ?>">
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" name="btnSubmit" class="pv-btn"><i class="ti ti-device-floppy"></i> Simpan</button>
+            <a href="index.php?page=employeelist" class="pv-btn-outline">Batal</a>
+        </div>
+    </form>
+</div>

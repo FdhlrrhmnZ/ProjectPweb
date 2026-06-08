@@ -1,43 +1,38 @@
-<h4 class="title">
-<span class="text">
-<strong>Employee List</strong>
-</spans><h4>
-<a class="btn btn-primary"
-href="index.php?page=employee">Add</a>
-<table class="table table-bordered">
-    <tr>
-    <th>No.</th>
-    <th>SSN</th>
-    <th>Name</th>
-    <th>Address</th>
-    <th>Action</th>
-    </tr>
+<div class="pv-page-wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+        <h1 class="pv-page-title mb-0">Daftar <span>Karyawan</span></h1>
+        <a class="pv-btn" href="index.php?page=employee"><i class="ti ti-plus"></i> Tambah</a>
+    </div>
 
-<?php
-require_once ('./class/class.Employee.php');
-$objEmployee = new Employee();
-$arrayResult = $objEmployee->SelectAllEmployee();
-
-if(count($arrayResult) == 0){
-    echo '<tr><td colspan="5">Tidak ada data!</td></tr>';
-} else {
-    $no = 1;
-    foreach($arrayResult as $dataEmployee){
-        echo '<tr>';
-        echo '<td>'.$no.'</td>';
-        echo '<td>'.$dataEmployee->ssn.'</td>';
-        echo '<td>'.$dataEmployee->fname.'</td>';
-        echo '<td>'.$dataEmployee->address.'</td>';
-        echo '<td>
-        <a class="btn btn-warning"
-        href="index.php?page=employee&ssn='.$dataEmployee->ssn.'">Edit</a>
-        <a class="btn btn-danger"
-        href="index.php?page=deleteemployee&ssn='.$dataEmployee->ssn.'"
-        onclick="return confirm(\'Apakah anda yakin ingin menghapus?\')">
-        Delete</a></td>';
-        echo '</tr>';
-        $no++;
-    }
-}
-?>
-</table>
+    <table class="table table-bordered">
+        <thead>
+            <tr><th>No.</th><th>SSN</th><th>Name</th><th>Address</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+        <?php
+        require_once('./class/class.Employee.php');
+        $objEmployee  = new Employee();
+        $arrayResult  = $objEmployee->SelectAllEmployee();
+        if (count($arrayResult) == 0) {
+            echo '<tr><td colspan="5" style="text-align:center;color:var(--pv-fg3);">Tidak ada data.</td></tr>';
+        } else {
+            $no = 1;
+            foreach ($arrayResult as $d) {
+                echo '<tr>';
+                echo '<td>'.$no.'</td>';
+                echo '<td>'.$d->ssn.'</td>';
+                echo '<td>'.$d->fname.'</td>';
+                echo '<td>'.$d->address.'</td>';
+                echo '<td style="display:flex;gap:6px;">
+                    <a class="btn btn-warning btn-sm" href="index.php?page=employee&ssn='.$d->ssn.'">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="index.php?page=deleteemployee&ssn='.$d->ssn.'"
+                       onclick="return confirm(\'Hapus karyawan ini?\')">Delete</a>
+                </td>';
+                echo '</tr>';
+                $no++;
+            }
+        }
+        ?>
+        </tbody>
+    </table>
+</div>
