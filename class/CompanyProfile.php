@@ -1,6 +1,6 @@
 <?php
 class CompanyProfile {
-    public $namaPerusahaan = "Tjeritakan Corp";
+    public $namaPerusahaan = "Pavana";
     public $deskripsi = "Platform e-commerce B2C yang menyediakan solusi teknologi dan produk berkualitas tinggi secara langsung kepada pelanggan.";
     public $visi = "Menjadi platform e-commerce B2C terdepan yang mengutamakan kualitas, inovasi, dan kepuasan pelanggan.";
     public $misi = [

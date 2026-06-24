@@ -22,7 +22,9 @@ if (isset($_POST['btnLogin'])) {
             else if ($objUser->role == 'manager')
                 echo '<script>window.location="dashboardmanager.php";</script>';
             else if ($objUser->role == 'admin')
-                echo '<script>window.location="dashboardadmin.php";</script>';
+                echo '<script>window.location="dashboardadmin.php?page=adminhome";</script>';
+            else if ($objUser->role == 'customer')
+                echo '<script>window.location="index.php?page=home";</script>';
         } else {
             echo "<script>alert('Password tidak match');</script>";
         }

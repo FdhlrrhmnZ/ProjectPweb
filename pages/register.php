@@ -13,7 +13,7 @@ if (isset($_POST['btnSubmit'])) {
         $password          = $_POST['password'];
         $objUser->password = password_hash($password, PASSWORD_DEFAULT);
         $objUser->name     = $_POST["name"];
-        $objUser->role     = 'employee';
+        $objUser->role     = 'customer';
         $objUser->AddUser();
         if ($objUser->hasil) {
             echo "<script>alert('Registrasi berhasil');</script>";

@@ -4,8 +4,8 @@ if (!isset($_SESSION)) {
 }
 require "inc.koneksi.php";
 
-echo "Welcome, <b>". $_SESSION["name"]."</b><br>";
-echo "Anda login sebagai, <b>". $_SESSION["role"]."</b>";
+$strwelcome = "Welcome, <b>". $_SESSION["name"]."</b><br>";
+$strwelcrole = "Anda login sebagai, <b>". $_SESSION["role"]."</b>";
 ?>
 
 <div id="navbar3" class="navbar-collapse collapse">

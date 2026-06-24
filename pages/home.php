@@ -1,3 +1,11 @@
+<?php
+$featured_products = [
+    ['id'=>1,'name'=>'The Meridian','color'=>'Onyx Black','price'=>1850000,'badge'=>'Bestseller','slug'=>'meridian-onyx'],
+    ['id'=>2,'name'=>'The Meridian','color'=>'Sand Beige', 'price'=>1850000,'badge'=>'',          'slug'=>'meridian-sand'],
+    ['id'=>3,'name'=>'The Meridian','color'=>'Slate Grey', 'price'=>1850000,'badge'=>'New',        'slug'=>'meridian-slate'],
+];
+?>
+
 <!-- HERO -->
 <section class="pv-hero">
     <div class="pv-hero-left">

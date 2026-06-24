@@ -31,10 +31,6 @@ function format_idr($price) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Tabler Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
     <!-- Pavana brand styles — edit assets/css/style.css to change the design -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -64,8 +60,6 @@ function format_idr($price) {
                     <li class="nav-item"><a class="nav-link <?= ($page=='about') ? 'active' : '' ?>" href="index.php?page=about">About Us</a></li>
                     <li class="nav-item"><a class="nav-link <?= ($page=='catalog') ? 'active' : '' ?>" href="index.php?page=catalog">Katalog Produk</a></li>
                     <li class="nav-item"><a class="nav-link <?= ($page=='contact') ? 'active' : '' ?>" href="index.php?page=contact">Kontak</a></li>
-                    <li class="nav-item"><a class="nav-link <?= ($page=='employeelist') ? 'active' : '' ?>" href="index.php?page=employeelist">Karyawan</a></li>
-                    <li class="nav-item"><a class="nav-link <?= ($page=='employeeprojectlist') ? 'active' : '' ?>" href="index.php?page=employeeprojectlist">Employee Project</a></li>
                 </ul>
 
                 <!-- Right-side controls -->
@@ -85,9 +79,12 @@ function format_idr($price) {
                     </a>
 
                     <!-- Login / Account (session-aware) -->
-                    <?php if (isset($_SESSION['userid'])): ?>
+                    <?php if (isset($_SESSION['role'])): ?>
                     <a href="index.php?page=account" class="pv-btn-outline" style="padding:6px 14px;font-size:10px;">
                         <i class="ti ti-user"></i> <?= htmlspecialchars($_SESSION['name']) ?>
+                    </a>
+                    <a href="index.php?page=logout" class="pv-btn-outline" style="padding:6px 14px;font-size:10px;">
+                        <i class="ti ti-logout">Logout</i>
                     </a>
                     <?php else: ?>
                     <a href="index.php?page=login" class="pv-btn-outline" style="padding:6px 14px;font-size:10px;">
