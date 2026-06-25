@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // ── Original login logic — unchanged ────────────
 require_once('./class/user.php');
 
@@ -11,7 +15,6 @@ if (isset($_POST['btnLogin'])) {
     if ($objUser->hasil) {
         $ismatch = password_verify($password, $objUser->password);
         if ($ismatch) {
-            if (!isset($_SESSION)) { session_start(); }
             $_SESSION["userid"] = $objUser->userid;
             $_SESSION["role"]   = $objUser->role;
             $_SESSION["name"]   = $objUser->name;

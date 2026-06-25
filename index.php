@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // ── Original repo logic — unchanged ─────────────
 require_once 'class/CompanyProfile.php';
 require "inc.koneksi.php";
