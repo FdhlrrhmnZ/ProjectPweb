@@ -3,6 +3,7 @@ class Product extends Connection {
     private $productid = 0;
     private $productname = '';
     private $price = 0.0;
+    private $gambar = ''; // Properti baru untuk menyimpan nama file gambar
     public $hasil = false;
     public $message = '';
 
@@ -19,7 +20,8 @@ class Product extends Connection {
     }
 
     public function AddProduct(){
-        $sql = "INSERT INTO product (productname, price) VALUES ('$this->productname', '$this->price')";
+        // Query disesuaikan dengan tabel 'produk' di database company.sql dan disisipkan kolom 'gambar'
+        $sql = "INSERT INTO produk (namaProduk, hargaProduk, gambar) VALUES ('$this->productname', '$this->price', '$this->gambar')";
         $this->hasil = mysqli_query($this->connection, $sql);
 
         if($this->hasil){
@@ -30,7 +32,8 @@ class Product extends Connection {
     }
 
     public function UpdateProduct(){
-        $sql = "UPDATE product SET productname = '$this->productname', price = '$this->price' WHERE productid = '$this->productid'";
+        // Query disesuaikan dengan tabel 'produk' di database company.sql
+        $sql = "UPDATE produk SET namaProduk = '$this->productname', hargaProduk = '$this->price' WHERE idProduk = '$this->productid'";
         $this->hasil = mysqli_query($this->connection, $sql);
 
         if($this->hasil){
@@ -41,7 +44,8 @@ class Product extends Connection {
     }
 
     public function DeleteProduct(){
-        $sql = "DELETE FROM product WHERE productid = '$this->productid'";
+        // Query disesuaikan dengan tabel 'produk' di database company.sql
+        $sql = "DELETE FROM produk WHERE idProduk = '$this->productid'";
         $this->hasil = mysqli_query($this->connection, $sql);
 
         if($this->hasil){
@@ -52,17 +56,43 @@ class Product extends Connection {
     }
 
     public function SelectProductByID(){
-        $sql = "SELECT * FROM product WHERE productid = '$this->productid'";
+        // Query disesuaikan dengan tabel 'produk' di database company.sql
+        $sql = "SELECT * FROM produk WHERE idProduk = '$this->productid'";
         $query = mysqli_query($this->connection, $sql);
         
         if($query && mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_assoc($query);
-            $this->productname = $row['productname'];
-            $this->price = $row['price'];
+            $this->productname = $row['namaProduk'];
+            $this->price = $row['hargaProduk'];
             return $row;
         }
         return null;
     }
-}
 
+    // ==========================================
+    // FITUR PENCARIAN & PENGURUTAN KATALOG
+    // ==========================================
+    public function SelectAllProducts($search = '', $sort = ''){
+        $sql = "SELECT * FROM produk WHERE 1=1";
+
+        // Fitur Search (Cari berdasarkan namaProduk)
+        if (!empty($search)) {
+            $search_safe = mysqli_real_escape_string($this->connection, $search);
+            $sql .= " AND namaProduk LIKE '%$search_safe%'";
+        }
+
+        // Fitur Sort (Pengurutan berdasarkan hargaProduk dan namaProduk)
+        if ($sort == 'termahal') {
+            $sql .= " ORDER BY hargaProduk DESC";
+        } else if ($sort == 'termurah') {
+            $sql .= " ORDER BY hargaProduk ASC";
+        } else if ($sort == 'az') {
+            $sql .= " ORDER BY namaProduk ASC";
+        } else {
+            $sql .= " ORDER BY idProduk DESC"; // Default: ID terbaru
+        }
+
+        return mysqli_query($this->connection, $sql);
+    }
+}
 ?>
