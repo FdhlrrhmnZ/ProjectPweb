@@ -17,10 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_cart'])) {
     $product_name = $_POST['productname'];
     $price = $_POST['price'];
     $qty = isset($_POST['qty']) ? (int)$_POST['qty'] : 1;
+    $ukuran = isset($_POST['ukuran']) ? $_POST['ukuran'] : '';
+    $warna = isset($_POST['warna']) ? $_POST['warna'] : '';
 
     $found = false;
     foreach ($_SESSION['cart'] as &$item) {
-        if ($item['productid'] == $product_id) {
+        // Jika id, ukuran, dan warna sama, tambahkan qty saja
+        if ($item['productid'] == $product_id && $item['ukuran'] == $ukuran && $item['warna'] == $warna) {
             $item['qty'] += $qty;
             $found = true;
             break;
@@ -32,7 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_cart'])) {
             'productid' => $product_id,
             'productname' => $product_name,
             'price' => $price,
-            'qty' => $qty
+            'qty' => $qty,
+            'ukuran' => $ukuran,
+            'warna' => $warna
         ];
     }
 
@@ -52,41 +57,41 @@ $result = $productObj->SelectAllProducts($search, $sort);
 $db_error = mysqli_error($productObj->connection);
 ?>
 
-<div class="container mt-4 mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Katalog <span class="text-primary">Produk</span></h2>
+<div class="pv-page-wrap">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h2 class="pv-page-title mb-0">Katalog <span>Produk</span></h2>
         
-        <a href="index.php?page=transaction" class="btn btn-success shadow-sm">
+        <a href="index.php?page=transaction" class="pv-btn">
             <i class="ti ti-shopping-cart"></i> Proses Transaksi 
-            <span class="badge bg-light text-success ms-1"><?= count($_SESSION['cart']) ?> Item</span>
+            <span class="badge bg-light text-dark ms-2"><?= count($_SESSION['cart']) ?> Item</span>
         </a>
     </div>
 
-    <div class="mb-4">
+    <div class="mb-5">
         <form action="index.php" method="GET" class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 15px;">
             <input type="hidden" name="page" value="catalog">
 
-            <div class="d-flex flex-grow-1" style="max-width: 500px; gap: 5px;">
+            <div class="d-flex flex-grow-1" style="max-width: 500px; gap: 10px;">
                 <input type="text" name="search" class="form-control" placeholder="Cari nama produk..." value="<?= htmlspecialchars($search) ?>">
-                <button type="submit" class="btn btn-primary fw-bold text-white">Search</button>
+                <button type="submit" class="pv-btn-outline" style="padding: 10px 15px;">Search</button>
             </div>
 
-            <div class="d-flex" style="gap: 5px;">
+            <div class="d-flex" style="gap: 10px;">
                 <select name="sort" class="form-select" style="min-width: 220px;">
                     <option value="">-- Pengurutan Default --</option>
                     <option value="termahal" <?= ($sort == 'termahal') ? 'selected' : '' ?>>Harga: Paling Mahal</option>
                     <option value="termurah" <?= ($sort == 'termurah') ? 'selected' : '' ?>>Harga: Paling Murah</option>
                     <option value="az" <?= ($sort == 'az') ? 'selected' : '' ?>>Nama: A - Z</option>
                 </select>
-                <button type="submit" class="btn btn-danger fw-bold text-white">Urutkan</button>
+                <button type="submit" class="pv-btn-outline" style="padding: 10px 15px;">Urutkan</button>
             </div>
         </form>
     </div>
 
     <?php if (isset($_GET['status']) && $_GET['status'] == 'added'): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
             <i class="ti ti-check"></i> Produk berhasil ditambahkan ke keranjang belanja!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
 
@@ -99,20 +104,21 @@ $db_error = mysqli_error($productObj->connection);
             </div>
         <?php elseif ($result && mysqli_num_rows($result) > 0): ?>
             <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0 bg-dark text-light">
-                        <?php 
-    // Mengecek apakah kolom gambar ada isinya, jika kosong pakai gambar default
-    $namaGambar = !empty($row['gambar']) ? $row['gambar'] : 'default.jpg'; 
-?>
-<img src="upload/<?= htmlspecialchars($namaGambar) ?>" class="card-img-top bg-secondary" alt="Gambar Produk" style="height: 180px; object-fit: cover;">
+                <div class="col d-flex">
+                    <div class="pv-product-card w-100 d-flex flex-column">
+                        <div class="pv-product-img" style="height: 250px;">
+                            <div class="pv-product-img-inner">
+                                <?php 
+                                    // Mengecek apakah kolom gambar ada isinya, jika kosong pakai gambar default
+                                    $namaGambar = !empty($row['gambar']) ? $row['gambar'] : 'default.jpg'; 
+                                ?>
+                                <img src="upload/<?= htmlspecialchars($namaGambar) ?>" alt="<?= htmlspecialchars($row['namaProduk']) ?>">
+                            </div>
+                        </div>
                         
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-truncate" title="<?= htmlspecialchars($row['namaProduk']) ?>">
-                                <?= htmlspecialchars($row['namaProduk']) ?>
-                            </h5>
-                            
-                            <p class="card-text text-info fw-bold fs-5 mb-1">
+                        <div class="pv-product-info d-flex flex-column flex-grow-1">
+                            <div class="pv-product-name"><?= htmlspecialchars($row['namaProduk']) ?></div>
+                            <div class="pv-product-price mb-2">
                                 <?php 
                                     if(function_exists('format_idr')) {
                                         echo format_idr($row['hargaProduk']);
@@ -120,10 +126,10 @@ $db_error = mysqli_error($productObj->connection);
                                         echo 'Rp ' . number_format($row['hargaProduk'], 0, ',', '.');
                                     }
                                 ?>
-                            </p>
+                            </div>
 
-                            <p class="card-text text-secondary mb-3" style="font-size: 0.85rem;">
-                                Warna: <?= htmlspecialchars($row['warnaProduk'] ?? '-') ?> | Stok: <?= htmlspecialchars($row['sisaStok']) ?>
+                            <p class="mb-3" style="font-size: 10px; color: var(--pv-fg3); text-transform: uppercase;">
+                                Stok Tersedia: <?= htmlspecialchars($row['sisaStok'] ?? '0') ?>
                             </p>
                             
                             <form method="POST" action="index.php?page=catalog" class="mt-auto">
@@ -131,12 +137,29 @@ $db_error = mysqli_error($productObj->connection);
                                 <input type="hidden" name="productname" value="<?= htmlspecialchars($row['namaProduk']) ?>">
                                 <input type="hidden" name="price" value="<?= $row['hargaProduk'] ?>">
                                 
-                                <div class="input-group input-group-sm mb-3">
-                                    <span class="input-group-text bg-secondary text-light border-secondary">Qty</span>
-                                    <input type="number" name="qty" class="form-control bg-dark text-light border-secondary" value="1" min="1" max="<?= $row['sisaStok'] ?>" required>
+                                <div class="d-flex gap-2 mb-3">
+                                    <div class="flex-grow-1">
+                                        <select name="ukuran" class="form-select form-select-sm" style="background: var(--pv-bg2); color: var(--pv-fg); border-color: var(--pv-border); font-size: 11px; padding: 8px;" required>
+                                            <option value="" disabled selected>Ukuran</option>
+                                            <option value="S">S</option>
+                                            <option value="M">M</option>
+                                            <option value="L">L</option>
+                                            <option value="XL">XL</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <select name="warna" class="form-select form-select-sm" style="background: var(--pv-bg2); color: var(--pv-fg); border-color: var(--pv-border); font-size: 11px; padding: 8px;" required>
+                                            <option value="" disabled selected>Warna</option>
+                                            <option value="Hitam">Hitam</option>
+                                            <option value="Putih">Putih</option>
+                                            <option value="Navy">Navy</option>
+                                            <option value="Abu-abu">Abu-abu</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <button type="submit" name="add_to_cart" class="btn btn-primary w-100" <?= ($row['sisaStok'] <= 0) ? 'disabled' : '' ?>>
-                                    <i class="ti ti-shopping-cart-plus"></i> <?= ($row['sisaStok'] <= 0) ? 'Stok Habis' : 'Tambah ke Cart' ?>
+
+                                <button type="submit" name="add_to_cart" class="pv-btn w-100" style="justify-content:center;" <?= (isset($row['sisaStok']) && $row['sisaStok'] <= 0) ? 'disabled' : '' ?>>
+                                    <i class="ti ti-shopping-cart-plus"></i> <?= (isset($row['sisaStok']) && $row['sisaStok'] <= 0) ? 'Stok Habis' : 'Tambah ke Cart' ?>
                                 </button>
                             </form>
                         </div>
@@ -144,7 +167,7 @@ $db_error = mysqli_error($productObj->connection);
                 </div>
             <?php endwhile; ?>
         <?php else: ?>
-            <div class="col-12 text-center my-5">
+            <div class="col-12 text-center my-5 w-100">
                 <div class="alert alert-warning d-inline-block">
                     <i class="ti ti-alert-triangle"></i> Belum ada produk atau produk yang dicari tidak ditemukan.
                 </div>
