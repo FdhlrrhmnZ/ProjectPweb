@@ -50,6 +50,62 @@ class User extends Connection{
             $this->role = $data['role'];
         }
     }
+
+    public function UpdateUser(){
+        $sql = "UPDATE user SET 
+                email = '$this->email', 
+                password = '$this->password', 
+                name = '$this->name', 
+                role = '$this->role' 
+                WHERE userid = '$this->userid'";
+                
+        $this->hasil = mysqli_query($this->connection, $sql);
+
+        if ($this->hasil) {
+            $this->message = "Data user berhasil diubah!";
+        } else {
+            $this->message = "Data user gagal diubah: " . mysqli_error($this->connection);
+        }
+    }
+
+    public function DeleteUser(){
+        $sql = "DELETE FROM user WHERE userid = '$this->userid'";
+        $this->hasil = mysqli_query($this->connection, $sql);
+
+        if ($this->hasil) {
+            $this->message = "Data user berhasil dihapus!";
+        } else {
+            $this->message = "Data user gagal dihapus: " . mysqli_error($this->connection);
+        }
+    }
+
+    public function SelectAllUser(){
+        $sql = "SELECT * FROM user";
+        $query = mysqli_query($this->connection, $sql);
+        
+        $data = [];
+        if ($query) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $data[] = $row;
+            }
+        }
+        return $data;
+    }
+
+    public function SelectOneUser(){
+        $sql = "SELECT * FROM user WHERE userid = '$this->userid'";
+        $query = mysqli_query($this->connection, $sql);
+        
+        if ($query && mysqli_num_rows($query) > 0) {
+            $row = mysqli_fetch_assoc($query);
+            $this->email = $row['email'];
+            $this->password = $row['password'];
+            $this->name = $row['name'];
+            $this->role = $row['role'];
+            return $row;
+        }
+        return null;
+    }
 }
 
 ?>
