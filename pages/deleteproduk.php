@@ -3,7 +3,7 @@ require_once ('./class/class.product.php');
 
 if(isset($_GET['idProduk'])){
     $product = new Product();
-    $product->userid = $_GET['userid'];
+    $product->productid = $_GET['idProduk'];
     $product->DeleteProduct();
 
     echo "<script>alert('.$product->message.'); </script>";
