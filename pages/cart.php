@@ -4,6 +4,22 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// --- FITUR PROTEKSI GUEST ---
+// Cek apakah session user sudah ada (Silakan sesuaikan 'iduser' dengan nama session login Anda)
+if (!isset($_SESSION['userid'])) {
+    echo "<script>
+            alert('Anda harus login terlebih dahulu untuk mengakses Keranjang Belanja!');
+            window.location.href='index.php?page=login';
+          </script>";
+    exit;
+}
+// ----------------------------
+
+// Inisialisasi keranjang jika belum ada
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
 // Inisialisasi keranjang jika belum ada
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];

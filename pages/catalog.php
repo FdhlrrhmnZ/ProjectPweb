@@ -6,6 +6,13 @@ if (!isset($_SESSION['cart'])) {
 
 // Handle logika ketika tombol "Tambah ke Cart" ditekan
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_cart'])) {
+    if (!isset($_SESSION['userid'])) {
+        echo "<script>
+                alert('Silakan login terlebih dahulu untuk menambahkan barang ke keranjang!');
+                window.location.href='index.php?page=login';
+              </script>";
+        exit;
+    }
     $product_id = $_POST['productid'];
     $product_name = $_POST['productname'];
     $price = $_POST['price'];

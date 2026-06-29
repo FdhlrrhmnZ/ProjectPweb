@@ -42,10 +42,10 @@ $strwelcrole = "Anda login sebagai, <b>". $_SESSION["role"]."</b>";
             <div class="collapse navbar-collapse" id="navbarNav">
                 <!-- Original nav links — page slugs and active logic preserved exactly -->
                 <ul class="navbar-nav mx-auto align-items-center gap-1">
-                    <li class="nav-item"><a class="nav-link <?= ($page=='home') ? 'active' : '' ?>" href="dashboardadmin.php?page=home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link <?= ($page=='about') ? 'active' : '' ?>" href="dashboardadmin.php?page=about">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link <?= ($page=='catalog') ? 'active' : '' ?>" href="dashboardadmin.php?page=catalog">Katalog Produk</a></li>
-                    <li class="nav-item"><a class="nav-link <?= ($page=='contact') ? 'active' : '' ?>" href="dashboardadmin.php?page=contact">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link <?= ($page=='home') ? 'active' : '' ?>" href="dashboardadmin.php?page=adminhome">Home</a></li>
+                    <li class="nav-item"><a class="nav-link <?= ($page=='about') ? 'active' : '' ?>" href="dashboardadmin.php?page=userlist">List User</a></li>
+                    <li class="nav-item"><a class="nav-link <?= ($page=='catalog') ? 'active' : '' ?>" href="dashboardadmin.php?page=admincatalog">Edit Katalog Produk</a></li>
+                    <li class="nav-item"><a class="nav-link <?= ($page=='contact') ? 'active' : '' ?>" href="dashboardadmin.php?page=admintransaksi">List Pesanan</a></li>
                 </ul>
 
                 <!-- Right-side controls -->

@@ -4,6 +4,23 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// --- FITUR PROTEKSI GUEST ---
+if (!isset($_SESSION['userid'])) {
+    echo "<script>
+            alert('Silakan login terlebih dahulu untuk melanjutkan proses transaksi!');
+            window.location.href='index.php?page=login';
+          </script>";
+    exit;
+}
+
+// Redirect jika keranjang kosong
+if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
+    echo "<script>alert('Keranjang belanja Anda kosong!'); window.location.href='index.php?page=catalog';</script>";
+    exit;
+}
+
+// ... (sisa kode transaction.php di bawahnya tetap sama)
+
 // Redirect jika keranjang kosong
 if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
     echo "<script>alert('Keranjang belanja Anda kosong!'); window.location.href='index.php?page=catalog';</script>";
