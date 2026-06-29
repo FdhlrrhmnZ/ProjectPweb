@@ -1,7 +1,7 @@
 <?php
 require_once 'class/class.product.php';
 $productObj = new Product();
-$featured_products = [$productObj->SelectAllProduct()];
+$featured_products = $productObj->SelectAllProduct();
 ?>
 
 <!-- HERO -->
@@ -76,26 +76,26 @@ $featured_products = [$productObj->SelectAllProduct()];
     <div class="pv-label">The Collection</div>
     <div class="pv-products">
         <?php foreach ($featured_products as $p): ?>
-        <div class="pv-product-card" onclick="window.location='index.php?page=catalog&slug=<?= urlencode($p['slug']) ?>'">
+        <div class="pv-product-card" onclick="window.location='index.php?page=catalog&slug=<?= urlencode($p['namaProduk']) ?>'">
             <div class="pv-product-img">
-                <?php if ($p['badge']): ?><span class="pv-product-badge"><?= $p['badge'] ?></span><?php endif; ?>
+                <?php if ($p['gambar']): ?><span class="pv-product-badge"><?= $p['gambar'] ?></span><?php endif; ?>
                 <div class="pv-product-img-inner">
-                    <!-- <img src="assets/img/products/<?= $p['slug'] ?>.jpg" alt="<?= htmlspecialchars($p['name']) ?>"> -->
+                    <!-- <img src="assets/img/products/<?= $p['slug'] ?>.jpg" alt="<?= htmlspecialchars($p['namaProduk']) ?>"> -->
                     <i class="ti ti-shirt"></i>
                 </div>
             </div>
             <div class="pv-product-info">
-                <div class="pv-product-name"><?= htmlspecialchars($p['name']) ?></div>
-                <div class="pv-product-color"><?= htmlspecialchars($p['color']) ?></div>
-                <div class="pv-product-price"><?= format_idr($p['price']) ?></div>
-                <div class="pv-sizes" data-product="<?= $p['id'] ?>">
+                <div class="pv-product-name"><?= htmlspecialchars($p['namaProduk']) ?></div>
+                <div class="pv-product-color"><?= htmlspecialchars($p['warnaProduk']) ?></div>
+                <div class="pv-product-price"><?= format_idr($p['hargaProduk']) ?></div>
+                <div class="pv-sizes" data-product="<?= $p['idProduk'] ?>">
                     <?php foreach (['S','M','L','XL'] as $sz): ?>
                     <button class="pv-size-btn" onclick="selectSize(event,this)" data-size="<?= $sz ?>"><?= $sz ?></button>
                     <?php endforeach; ?>
                 </div>
                 <div class="pv-product-actions">
                     <button class="pv-btn" style="flex:1;justify-content:center;"
-                        onclick="addToCart(event,<?= $p['id'] ?>,'<?= addslashes(htmlspecialchars($p['name'])) ?>')">
+                        onclick="addToCart(event,<?= $p['id'] ?>,'<?= addslashes(htmlspecialchars($p['namaProduk'])) ?>')">
                         <i class="ti ti-shopping-cart-plus"></i> Add to Cart
                     </button>
                 </div>
