@@ -94,5 +94,15 @@ class Product extends Connection {
 
         return mysqli_query($this->connection, $sql);
     }
+
+    public function SelectAllProduct(){
+        $sql = "SELECT * FROM produk";
+        $query = mysqli_query($this->connection, $sql);
+        $data = [];
+        while($row = mysqli_fetch_assoc($query)){
+            $data[] = $row;
+        }
+        return $data;
+    }
 }
 ?>

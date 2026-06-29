@@ -18,7 +18,7 @@ $strwelcrole = "Anda login sebagai, <b>". $_SESSION["role"]."</b>";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $profile->getNamaPerusahaan(); ?> - B2C E-Commerce</title>
+    <title><?= $profile->getNamaPerusahaan(); ?> - Admin Site</title>
 
     <!-- Bootstrap 5.3.8 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@ $strwelcrole = "Anda login sebagai, <b>". $_SESSION["role"]."</b>";
         ?>
 </main>
 
-    !-- ── FOOTER ─────────────────────────────── -->
+    <!-- ── FOOTER ─────────────────────────────── -->
     <footer class="pv-footer mt-auto">
         <div class="pv-footer-top">
             <div>

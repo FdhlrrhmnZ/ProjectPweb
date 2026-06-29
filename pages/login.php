@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // ── Original login logic — unchanged ────────────
-require_once('./class/user.php');
+require_once('./class/class.user.php');
 
 if (isset($_POST['btnLogin'])) {
     $email    = $_POST['email'];

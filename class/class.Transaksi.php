@@ -65,5 +65,20 @@ class Transaksi extends Connection {
         }
         return null;
     }
+
+    // Tambahkan di dalam class Transaksi di class/class.Transaksi.php
+    public function SelectAllTransaksi(){
+        $sql = "SELECT t.*, p.namaProduk as nama_produk 
+                FROM transaksi t 
+                JOIN produk p ON t.idProduk = p.idProduk 
+                ORDER BY t.tanggal DESC";
+        $query = mysqli_query($this->connection, $sql);
+        
+        $data = [];
+        while($row = mysqli_fetch_assoc($query)){
+            $data[] = $row;
+        }
+        return $data;
+    }
 }
 ?>
