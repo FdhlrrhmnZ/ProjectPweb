@@ -1,16 +1,34 @@
 <?php
 require_once 'class/class.product.php';
+
 $productObj = new Product();
-$featured_products = $productObj->SelectAllProduct();
+$featured_products = [];
+
+// Menggunakan koneksi dari object class (OOP)
+$check_cat = mysqli_query($productObj->connection, "SHOW COLUMNS FROM produk LIKE 'kategori'");
+
+if($check_cat && mysqli_num_rows($check_cat) > 0) {
+    // Jika kolom kategori sudah ada, ambil 4 produk Rekomendasi
+    $query = "SELECT * FROM produk WHERE kategori = 'Rekomendasi' ORDER BY idProduk DESC LIMIT 4";
+} else {
+    // Jika belum, ambil 4 produk terbaru sebagai cadangan
+    $query = "SELECT * FROM produk ORDER BY idProduk DESC LIMIT 4";
+}
+
+$result = mysqli_query($productObj->connection, $query);
+if($result){
+    while($row = mysqli_fetch_assoc($result)){
+        $featured_products[] = $row;
+    }
+}
 ?>
 
-<!-- HERO -->
 <section class="pv-hero">
     <div class="pv-hero-left">
-        <p class="pv-hero-eyebrow">Debut Collection — 2025</p>
+        <p class="pv-hero-eyebrow">Debut Collection — 2026</p>
         <h1 class="pv-hero-title">Ride<br><em>in</em><br>Style.</h1>
         <p class="pv-hero-sub">
-            <?= $profile->namaPerusahaan ?> crafts motorcycle blazers that move with you —
+            <?= isset($profile->namaPerusahaan) ? $profile->namaPerusahaan : 'Perusahaan Kami' ?> crafts motorcycle blazers that move with you —
             on the road and through the city. Precision-made in Indonesia.
         </p>
         <div class="pv-hero-cta">
@@ -21,7 +39,8 @@ $featured_products = $productObj->SelectAllProduct();
     <div class="pv-hero-right">
         <span class="pv-hero-badge"><i class="ti ti-diamond" style="font-size:11px;vertical-align:-1px;"></i> Premium Moto Apparel</span>
         <div class="pv-hero-img-wrap">
-            <!-- Replace with: <img src="assets/img/hero.jpg" alt="Pavana Blazer"> -->
+            <img src="upload/hero-banner.jpg" alt="Hero Banner" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            
             <div class="pv-hero-placeholder">
                 <i class="ti ti-shirt"></i>
                 <span>Campaign photo</span>
@@ -31,25 +50,23 @@ $featured_products = $productObj->SelectAllProduct();
     </div>
 </section>
 
-<!-- MARQUEE -->
 <div class="pv-marquee" aria-hidden="true">
     <div class="pv-marquee-track">
         <span>Premium Moto Apparel</span><span>•</span>
         <span>Handcrafted in Indonesia</span><span>•</span>
         <span>Road-Ready Blazers</span><span>•</span>
-        <span>Debut Collection 2025</span><span>•</span>
+        <span>Debut Collection 2026</span><span>•</span>
         <span>Daily Lifestyle Wear</span><span>•</span>
         <span>Premium Moto Apparel</span><span>•</span>
         <span>Handcrafted in Indonesia</span><span>•</span>
         <span>Road-Ready Blazers</span><span>•</span>
-        <span>Debut Collection 2025</span><span>•</span>
+        <span>Debut Collection 2026</span><span>•</span>
         <span>Daily Lifestyle Wear</span><span>•</span>
     </div>
 </div>
 
-<!-- PILLARS -->
 <section class="pv-section">
-    <div class="pv-label">Why <?= $profile->namaPerusahaan ?></div>
+    <div class="pv-label">Why <?= isset($profile->namaPerusahaan) ? $profile->namaPerusahaan : 'Us' ?></div>
     <div class="pv-features">
         <div class="pv-feature">
             <div class="pv-feature-num">01</div>
@@ -71,67 +88,84 @@ $featured_products = $productObj->SelectAllProduct();
 
 <div class="pv-divider"></div>
 
-<!-- FEATURED PRODUCTS -->
 <section class="pv-section">
     <div class="pv-label">The Collection</div>
     <div class="pv-products">
-        <?php foreach ($featured_products as $p): ?>
-        <div class="pv-product-card" onclick="window.location='index.php?page=catalog&slug=<?= urlencode($p['namaProduk']) ?>'">
-            <div class="pv-product-img">
-                <?php if ($p['gambar']): ?><span class="pv-product-badge"><?= $p['gambar'] ?></span><?php endif; ?>
-                <div class="pv-product-img-inner">
-                    <!-- <img src="assets/img/products/<?= $p['slug'] ?>.jpg" alt="<?= htmlspecialchars($p['namaProduk']) ?>"> -->
-                    <i class="ti ti-shirt"></i>
+        <?php if(!empty($featured_products)): ?>
+            <?php foreach ($featured_products as $p): ?>
+            <div class="pv-product-card" onclick="window.location='index.php?page=catalog'">
+                <div class="pv-product-img" style="height: 250px; background-color: var(--pv-bg2);">
+                    <?php if (isset($p['kategori']) && $p['kategori'] == 'Rekomendasi'): ?>
+                        <span class="pv-product-badge" style="background: var(--pv-gold); color: black;">Top Pick</span>
+                    <?php endif; ?>
+                    <div class="pv-product-img-inner" style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                        <?php $imgSrc = !empty($p['gambar']) ? "upload/".$p['gambar'] : "upload/default.jpg"; ?>
+                        
+                        <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($p['namaProduk']) ?>" style="width:100%; height:100%; object-fit:contain; background-color: transparent;">
+                    </div>
+                </div>
+                <div class="pv-product-info">
+                    <div class="pv-product-name"><?= htmlspecialchars($p['namaProduk']) ?></div>
+                    <div class="pv-product-color"><?= htmlspecialchars($p['warnaProduk'] ?? 'Standard') ?></div>
+                    
+                    <div class="pv-product-price">
+                        <?php 
+                            if(function_exists('format_idr')){
+                                echo format_idr($p['hargaProduk']);
+                            } else {
+                                echo "Rp " . number_format($p['hargaProduk'], 0, ',', '.');
+                            }
+                        ?>
+                    </div>
+
+                    <div class="pv-sizes" data-product="<?= $p['idProduk'] ?>">
+                        <?php foreach (['S','M','L','XL'] as $sz): ?>
+                        <button class="pv-size-btn" onclick="selectSize(event,this)" data-size="<?= $sz ?>"><?= $sz ?></button>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="pv-product-actions">
+                        <button class="pv-btn" style="flex:1;justify-content:center;"
+                            onclick="event.stopPropagation(); window.location='index.php?page=catalog'">
+                            <i class="ti ti-shopping-cart-plus"></i> Lihat di Katalog
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="pv-product-info">
-                <div class="pv-product-name"><?= htmlspecialchars($p['namaProduk']) ?></div>
-                <div class="pv-product-color"><?= htmlspecialchars($p['warnaProduk']) ?></div>
-                <div class="pv-product-price"><?= format_idr($p['hargaProduk']) ?></div>
-                <div class="pv-sizes" data-product="<?= $p['idProduk'] ?>">
-                    <?php foreach (['S','M','L','XL'] as $sz): ?>
-                    <button class="pv-size-btn" onclick="selectSize(event,this)" data-size="<?= $sz ?>"><?= $sz ?></button>
-                    <?php endforeach; ?>
-                </div>
-                <div class="pv-product-actions">
-                    <button class="pv-btn" style="flex:1;justify-content:center;"
-                        onclick="addToCart(event,<?= $p['id'] ?>,'<?= addslashes(htmlspecialchars($p['namaProduk'])) ?>')">
-                        <i class="ti ti-shopping-cart-plus"></i> Add to Cart
-                    </button>
-                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div style="grid-column: 1 / -1; text-align: center; color: gray;">
+                Belum ada koleksi yang ditambahkan.
             </div>
-        </div>
-        <?php endforeach; ?>
+        <?php endif; ?>
     </div>
     <div style="text-align:center;margin-top:3rem;">
         <a href="index.php?page=catalog" class="pv-btn-outline">Lihat Semua Produk <i class="ti ti-arrow-right"></i></a>
     </div>
 </section>
 
-<!-- STORY -->
 <section style="padding-bottom:2px;">
     <div class="pv-story">
         <div class="pv-story-text">
             <div class="pv-label" style="margin-bottom:2rem;">The Brand</div>
             <h2 class="pv-story-title">Built for<br><span>the road,</span><br>worn for life.</h2>
-            <p class="pv-story-body"><?= $profile->deskripsi ?></p>
+            <p class="pv-story-body"><?= isset($profile->deskripsi) ? $profile->deskripsi : 'Cerita brand kami dimulai dari jalanan, dirancang untuk kenyamanan berkendara dan gaya hidup.' ?></p>
             <a href="index.php?page=about" class="pv-btn" style="width:fit-content;">Our Story <i class="ti ti-arrow-right"></i></a>
         </div>
         <div class="pv-story-img">
-            <!-- <img src="assets/img/brand-story.jpg" alt="Pavana"> -->
+            <img src="upload/foto-brand.jpg" alt="Brand Story" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            
             <div class="pv-story-placeholder"><i class="ti ti-camera"></i><p>Brand / lookbook photo</p></div>
         </div>
     </div>
 </section>
 
-<!-- INSTAGRAM -->
 <section class="pv-section" style="padding-bottom:0;">
     <div class="pv-label">Follow the Ride</div>
 </section>
 <div class="pv-social-grid">
     <?php for ($i=1;$i<=3;$i++): ?>
     <div class="pv-social-cell">
-        <!-- <img src="assets/img/ig/post-<?= $i ?>.jpg" alt="Instagram post"> -->
+        <img src="upload/ig-foto-<?= $i ?>.jpg" alt="IG Post" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <i class="ti ti-photo"></i>
     </div>
     <?php endfor; ?>
